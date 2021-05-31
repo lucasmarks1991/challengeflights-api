@@ -14,5 +14,19 @@
 */
 
 $router->get('/', function () use ($router) {
-    return $router->app->version();
+    return [
+        'name' => env('APP_NAME'),
+        'version' => $router->app->version(),
+    ];
+});
+
+$router->group(['prefix' => 'v1'], function () use ($router) {
+
+    $router->group(['prefix' => 'flights'], function () use ($router) {
+
+        $router->get('/', 'FlightController@index');
+        $router->get('/grouped', 'FlightController@grouped');
+
+    });
+
 });
